@@ -5,7 +5,7 @@ class RemoteFlexPayTest < Test::Unit::TestCase
     @gateway = FlexPayGateway.new(fixtures(:flex_pay))
 
     @amount = 100
-    @credit_card = credit_card('4000100011112224')
+    @credit_card = credit_card('4920201996449560', verification_value: '879')
     @declined_card = credit_card('4000300011112220')
     @options = {
       billing_address: address,
@@ -16,7 +16,7 @@ class RemoteFlexPayTest < Test::Unit::TestCase
   def test_successful_purchase
     response = @gateway.purchase(@amount, @credit_card, @options)
     assert_success response
-    assert_equal 'REPLACE WITH SUCCESS MESSAGE', response.message
+    assert_equal 'Approved.', response.message
   end
 
   def test_successful_purchase_with_more_options
@@ -28,13 +28,13 @@ class RemoteFlexPayTest < Test::Unit::TestCase
 
     response = @gateway.purchase(@amount, @credit_card, options)
     assert_success response
-    assert_equal 'REPLACE WITH SUCCESS MESSAGE', response.message
+    assert_equal 'Approved.', response.message
   end
 
   def test_failed_purchase
-    response = @gateway.purchase(@amount, @declined_card, @options)
+    response = @gateway.purchase(@amount = 2008, @credit_card, @options)
     assert_failure response
-    assert_equal 'REPLACE WITH FAILED PURCHASE MESSAGE', response.message
+    assert_equal 'Declined - do not honor.', response.message
   end
 
   def test_successful_authorize_and_capture
@@ -43,13 +43,13 @@ class RemoteFlexPayTest < Test::Unit::TestCase
 
     assert capture = @gateway.capture(@amount, auth.authorization)
     assert_success capture
-    assert_equal 'REPLACE WITH SUCCESS MESSAGE', response.message
+    assert_equal 'Approved.', capture.message
   end
 
   def test_failed_authorize
-    response = @gateway.authorize(@amount, @declined_card, @options)
+    response = @gateway.authorize(@amount = 2008, @credit_card, @options)
     assert_failure response
-    assert_equal 'REPLACE WITH FAILED AUTHORIZE MESSAGE', response.message
+    assert_equal 'Declined - do not honor.', response.message
   end
 
   def test_partial_capture
@@ -61,9 +61,9 @@ class RemoteFlexPayTest < Test::Unit::TestCase
   end
 
   def test_failed_capture
-    response = @gateway.capture(@amount, '')
+    response = @gateway.capture(@amount = 2008, '5X7SQV53KJCUDDDGAFWPQU3D2Y')
     assert_failure response
-    assert_equal 'REPLACE WITH FAILED CAPTURE MESSAGE', response.message
+    assert_equal 'Declined - do not honor.', response.message
   end
 
   def test_successful_refund
@@ -72,7 +72,7 @@ class RemoteFlexPayTest < Test::Unit::TestCase
 
     assert refund = @gateway.refund(@amount, purchase.authorization)
     assert_success refund
-    assert_equal 'REPLACE WITH SUCCESSFUL REFUND MESSAGE', refund.message
+    assert_equal 'Approved.', refund.message
   end
 
   def test_partial_refund
@@ -84,9 +84,9 @@ class RemoteFlexPayTest < Test::Unit::TestCase
   end
 
   def test_failed_refund
-    response = @gateway.refund(@amount, '')
+    response = @gateway.refund(@amount = 3016, '5X7SQV53KJCUDDDGAFWPQU3D2Y')
     assert_failure response
-    assert_equal 'REPLACE WITH FAILED REFUND MESSAGE', response.message
+    assert_equal 'The external gateway has reported that you have submitted an invalid amount with your request.', response.message
   end
 
   def test_successful_void
@@ -95,42 +95,33 @@ class RemoteFlexPayTest < Test::Unit::TestCase
 
     assert void = @gateway.void(auth.authorization)
     assert_success void
-    assert_equal 'REPLACE WITH SUCCESSFUL VOID MESSAGE', void.message
+    assert_equal 'Approved.', void.message
   end
 
   def test_failed_void
-    response = @gateway.void('')
+    response = @gateway.void('XX7SQV53KJCUDDDGAFWPQU3D2Y')
     assert_failure response
-    assert_equal 'REPLACE WITH FAILED VOID MESSAGE', response.message
+    assert_equal 'Original transaction not found using the field TransactionReferenceId.', response.message
   end
 
   def test_successful_verify
     response = @gateway.verify(@credit_card, @options)
     assert_success response
-    assert_match %r{REPLACE WITH SUCCESS MESSAGE}, response.message
+    assert_match %r{Approved.}, response.message
   end
 
   def test_failed_verify
     response = @gateway.verify(@declined_card, @options)
     assert_failure response
-    assert_match %r{REPLACE WITH FAILED PURCHASE MESSAGE}, response.message
+    assert_match %r{Error / Invalid parameters in the request.}, response.message
   end
 
   def test_invalid_login
-    gateway = FlexPayGateway.new(login: '', password: '')
+    gateway = FlexPayGateway.new(api_key: '')
 
     response = gateway.purchase(@amount, @credit_card, @options)
     assert_failure response
-    assert_match %r{REPLACE WITH FAILED LOGIN MESSAGE}, response.message
-  end
-
-  def test_dump_transcript
-    # This test will run a purchase transaction on your gateway
-    # and dump a transcript of the HTTP conversation so that
-    # you can use that transcript as a reference while
-    # implementing your scrubbing logic.  You can delete
-    # this helper after completing your scrub implementation.
-    dump_transcript_and_fail(@gateway, @amount, @credit_card, @options)
+    assert_match %r{Unauthorized}, response.message
   end
 
   def test_transcript_scrubbing
@@ -141,7 +132,7 @@ class RemoteFlexPayTest < Test::Unit::TestCase
 
     assert_scrubbed(@credit_card.number, transcript)
     assert_scrubbed(@credit_card.verification_value, transcript)
-    assert_scrubbed(@gateway.options[:password], transcript)
+    assert_scrubbed(@gateway.options[:api_key], transcript)
   end
 
 end
