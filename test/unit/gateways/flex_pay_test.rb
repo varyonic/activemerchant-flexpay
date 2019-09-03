@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class FlexPayTest < Test::Unit::TestCase
+  include CommStub
+
   def setup
     @gateway = FlexPayGateway.new(api_key: 'api_key')
     @credit_card = credit_card
