@@ -4,13 +4,13 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "active_merchant/flex_pay/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "active_merchant-flex_pay"
+  spec.name          = "activemerchant-flexpay"
   spec.version       = ActiveMerchant::FlexPay::VERSION
   spec.authors       = ["Piers Chambers"]
   spec.email         = ["piers@varyonic.com"]
 
   spec.summary       = %q{Active Merchant extension to support FlexPay.io}
-  spec.homepage      = "https://github.com/varyonic/active_merchant-flex_pay"
+  spec.homepage      = "https://github.com/varyonic/activemerchant-flexpay"
   spec.license       = "MIT"
 
   # Specify which files should be added to the gem when it is released.

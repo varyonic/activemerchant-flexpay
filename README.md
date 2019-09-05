@@ -7,7 +7,7 @@ Active Merchant extension to support FlexPay.io
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'active_merchant-flex_pay'
+gem 'activemerchant-flexpay'
 ```
 
 And then execute:
@@ -26,7 +26,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/active_merchant-flex_pay.
+Bug reports and pull requests are welcome on GitHub at https://github.com/varyonic/activemerchant-flexpay.
 
 ## License
 
