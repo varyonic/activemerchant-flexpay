@@ -130,6 +130,8 @@ module ActiveMerchant #:nodoc:
         post[:orderId] = options[:order_id] || post[:merchantTransactionId]
         post[:amount] = amount(money)
         post[:currencyCode] = (options[:currency] || currency(money))
+        post[:retryCount] = options[:retry_count] || 0
+        post[:referenceData] = options[:reference_data] if options[:reference_data]
       end
 
       def add_payment(post, payment)
@@ -141,7 +143,6 @@ module ActiveMerchant #:nodoc:
           cvv: payment.verification_value,
           fullName: payment.name
         }
-        post[:retryCount] = 0
       end
 
       def headers(api_key)

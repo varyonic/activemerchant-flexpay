@@ -37,6 +37,16 @@ class RemoteFlexPayTest < Test::Unit::TestCase
     assert_equal 'Declined - do not honor.', response.message
   end
 
+  def test_failed_purchase_with_retry
+    response = @gateway.purchase(@amount = 2008, @credit_card, @options)
+    assert_failure response
+    assert_equal 'Declined - do not honor.', response.message
+
+    @options[:retry_count] = 1
+    @options[:reference_data] = response.params['referenceData']
+    response = @gateway.purchase(@amount = 2008, @credit_card, @options)
+  end
+
   def test_successful_authorize_and_capture
     auth = @gateway.authorize(@amount, @credit_card, @options)
     assert_success auth
