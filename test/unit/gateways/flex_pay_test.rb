@@ -136,7 +136,7 @@ class FlexPayTest < Test::Unit::TestCase
       opened
       starting SSL for api.flexpay.io:443...
       SSL established
-      <- "POST /v1/gateways/charge HTTP/1.1\r\nContent-Type: application/json\r\nAuthorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==\r\nUser-Agent: ActiveMerchant::FlexPay/0.1.0\r\nConnection: close\r\nAccept-Encoding: gzip;q=1.0,deflate;q=0.6,identity;q=0.3\r\nAccept: */*\r\nHost: api.flexpay.io\r\nContent-Length: 492\r\n\r\n"
+      <- "POST /v1/gateways/charge HTTP/1.1\r\nContent-Type: application/json\r\nAuthorization: Basic kIqCBL40PaoL2Tg28hUxVgtqKgYDTSLnl5J3iwptJHA=\r\nUser-Agent: ActiveMerchant::FlexPay/0.1.0\r\nConnection: close\r\nAccept-Encoding: gzip;q=1.0,deflate;q=0.6,identity;q=0.3\r\nAccept: */*\r\nHost: api.flexpay.io\r\nContent-Length: 492\r\n\r\n"
       <- "{\"transaction\":{\"merchantTransactionId\":\"45592038f232181b03030ef39fccb19c\",\"orderId\":\"45592038f232181b03030ef39fccb19c\",\"amount\":\"100\",\"currencyCode\":\"USD\",\"retainOnSuccess\":\"true\",\"paymentMethod\":{\"creditCardNumber\":\"4920201996449560\",\"expiryMonth\":9,\"expiryYear\":2020,\"cvv\":\"879\",\"fullName\":\"Longbob Longsen\",\"address1\":\"456 My Street\",\"address2\":\"Apt 1\",\"postalCode\":\"K1C2N6\",\"city\":\"Ottawa\",\"state\":\"ON\",\"country\":\"CA\"},\"retryCount\":0,\"customerId\":\"ef58583d-444a-4a1f-810c-d711b00b1f68\"}}"
       -> "HTTP/1.1 200 OK\r\n"
       -> "Cache-Control: no-cache\r\n"
@@ -170,7 +170,7 @@ class FlexPayTest < Test::Unit::TestCase
       opened
       starting SSL for api.flexpay.io:443...
       SSL established
-      <- "POST /v1/gateways/charge HTTP/1.1\r\nContent-Type: application/json\r\nAuthorization: Basic [FILTERED]==\r\nUser-Agent: ActiveMerchant::FlexPay/0.1.0\r\nConnection: close\r\nAccept-Encoding: gzip;q=1.0,deflate;q=0.6,identity;q=0.3\r\nAccept: */*\r\nHost: api.flexpay.io\r\nContent-Length: 492\r\n\r\n"
+      <- "POST /v1/gateways/charge HTTP/1.1\r\nContent-Type: application/json\r\nAuthorization: Basic [FILTERED]=\r\nUser-Agent: ActiveMerchant::FlexPay/0.1.0\r\nConnection: close\r\nAccept-Encoding: gzip;q=1.0,deflate;q=0.6,identity;q=0.3\r\nAccept: */*\r\nHost: api.flexpay.io\r\nContent-Length: 492\r\n\r\n"
       <- "{\"transaction\":{\"merchantTransactionId\":\"45592038f232181b03030ef39fccb19c\",\"orderId\":\"45592038f232181b03030ef39fccb19c\",\"amount\":\"100\",\"currencyCode\":\"USD\",\"retainOnSuccess\":\"true\",\"paymentMethod\":{\"creditCardNumber\":\"[FILTERED]\",\"expiryMonth\":9,\"expiryYear\":2020,\"cvv\":\"[FILTERED]\",\"fullName\":\"Longbob Longsen\",\"address1\":\"456 My Street\",\"address2\":\"Apt 1\",\"postalCode\":\"K1C2N6\",\"city\":\"Ottawa\",\"state\":\"ON\",\"country\":\"CA\"},\"retryCount\":0,\"customerId\":\"ef58583d-444a-4a1f-810c-d711b00b1f68\"}}"
       -> "HTTP/1.1 200 OK\r\n"
       -> "Cache-Control: no-cache\r\n"
