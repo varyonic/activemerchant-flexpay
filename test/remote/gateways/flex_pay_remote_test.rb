@@ -23,12 +23,15 @@ class RemoteFlexPayTest < Test::Unit::TestCase
     options = {
       order_id: '1',
       ip: "127.0.0.1",
-      email: "joe@example.com"
+      email: "joe@example.com",
+      customer_id: 12345,
     }
 
     response = @gateway.purchase(@amount, @credit_card, options)
     assert_success response
     assert_equal 'Approved.', response.message
+    assert_equal response.params['paymentMethod']['email'], 'joe@example.com'
+    assert_equal response.params['paymentMethod']['customerId'], '12345'
   end
 
   def test_failed_purchase

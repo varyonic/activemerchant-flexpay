@@ -97,11 +97,10 @@ module ActiveMerchant #:nodoc:
       private
 
       def add_customer_data(post, options)
-        if options[:email].present?
-          post[:paymentMethod][:email] = options[:email]
-        else
-          post[:customerId] = options[:customer_id] || generate_unique_id
-        end
+        post[:customerId] = options[:customer_id] if options[:customer_id].present?
+        post[:paymentMethod][:email] = options[:email] if options[:email].present?
+        post[:customerId] ||= generate_unique_id if options[:email].blank?
+
         add_shipping_address(post, options[:shipping_address]) if options[:shipping_address]
       end
 
