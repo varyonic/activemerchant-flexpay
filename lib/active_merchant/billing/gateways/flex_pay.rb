@@ -39,7 +39,7 @@ module ActiveMerchant #:nodoc:
       def purchase(money, payment, options={})
         post = {}
         add_invoice(post, money, options)
-        add_payment(post, payment)
+        add_payment(post, payment, options)
         add_address(post, payment, options)
         add_customer_data(post, options)
 
@@ -49,7 +49,7 @@ module ActiveMerchant #:nodoc:
       def authorize(money, payment, options={})
         post = {}
         add_invoice(post, money, options)
-        add_payment(post, payment)
+        add_payment(post, payment, options)
         add_address(post, payment, options)
         add_customer_data(post, options)
 
@@ -133,8 +133,7 @@ module ActiveMerchant #:nodoc:
         post[:referenceData] = options[:reference_data] if options[:reference_data]
       end
 
-      def add_payment(post, payment)
-        post[:retainOnSuccess] = 'true'
+      def add_payment(post, payment, options)
         post[:paymentMethod] = {
           creditCardNumber: payment.number,
           expiryMonth: '%02d' % payment.month,
@@ -142,6 +141,7 @@ module ActiveMerchant #:nodoc:
           cvv: payment.verification_value,
           fullName: payment.name
         }
+        post[:retainOnSuccess] = options[:store] ? true : false
       end
 
       def headers(api_key)
