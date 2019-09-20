@@ -138,7 +138,7 @@ module ActiveMerchant #:nodoc:
         post[:retainOnSuccess] = 'true'
         post[:paymentMethod] = {
           creditCardNumber: payment.number,
-          expiryMonth: payment.month,
+          expiryMonth: '%02d' % payment.month,
           expiryYear: payment.year,
           cvv: payment.verification_value,
           fullName: payment.name
